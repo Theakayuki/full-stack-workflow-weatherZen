@@ -12,7 +12,7 @@ function hasData(req, res, next) {
 
 function hasLatitude(req, res, next) {
   const { latitude } = req.body.data;
-  if (latitude >= -90 && latitude <= 90) return next();
+  if (+latitude >= -90 && +latitude <= 90) return next();
   next({
     status: 400,
     message: 'latitude must be between -90 and 90',
@@ -21,7 +21,7 @@ function hasLatitude(req, res, next) {
 
 function hasLongitude(req, res, next) {
   const { longitude } = req.body.data;
-  if (longitude >= -180 && longitude <= 180) return next();
+  if (+longitude >= -180 && +longitude <= 180) return next();
   next({
     status: 400,
     message: 'longitude must be between -180 and 180',
@@ -62,6 +62,22 @@ async function observationExists(req, res, next) {
   });
 }
 
+function hasValidTemperature(req, res, next) {
+  const { air_temperature_unit, air_temperature } = req.body.data;
+
+  if (air_temperature_unit === 'F' && (+air_temperature >= -60 && +air_temperature <= 224)) {
+    return next();
+  } else if (air_temperature_unit === 'C' && (+air_temperature >= -50 && +air_temperature <= 107)) {
+    return next();
+  } else {
+    next({
+      status: 400,
+      message:
+        'air_temperature must be between -60 and 224 for Fahrenheit or -50 and 107 for Celsius',
+    });
+  }
+}
+
 async function list(req, res) {
   const data = await service.list();
   res.json({ data });
@@ -94,12 +110,20 @@ async function destroy(req, res) {
 
 module.exports = {
   list: asyncErrorBoundary(list),
-  create: [hasData, hasLatitude, hasLongitude, hasSkyCondition, asyncErrorBoundary(create)],
+  create: [
+    hasData,
+    hasValidTemperature,
+    hasLatitude,
+    hasLongitude,
+    hasSkyCondition,
+    asyncErrorBoundary(create),
+  ],
   read: [hasObservationId, asyncErrorBoundary(observationExists), asyncErrorBoundary(read)],
   update: [
     hasObservationId,
     asyncErrorBoundary(observationExists),
     hasData,
+    hasValidTemperature,
     hasLatitude,
     hasLongitude,
     hasSkyCondition,

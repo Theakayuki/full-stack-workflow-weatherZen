@@ -54,6 +54,39 @@ const content = (
             <small className='form-text text-muted'>Enter a value between -180 and 180.</small>
           </div>
         </div>
+        <div className='row mb-3'>
+          <div className='col-6'>
+            <label className='form-label' htmlFor='air_temperature_unit'>
+              Air temperature unit
+            </label>
+            <select
+              className='form-control'
+              id='air_temperature_unit'
+              name='air_temperature_unit'
+              value={observation.air_temperature_unit}
+              onChange={changeHandler}
+              required={true}
+            >
+              <option value=''>Select a temperature unit option</option>
+              <option value='F'>Fahrenheit</option>
+              <option value='C'>Celsius</option>
+            </select>
+          </div>
+          <div className='col-6'>
+            <label className='form-label' htmlFor='air_temperature'>
+              Air temperature
+            </label>
+            <input
+              className='form-control'
+              id='air_temperature'
+              name='air_temperature'
+              type='number'
+              value={observation.air_temperature}
+              onChange={changeHandler}
+              required={true}
+            />
+          </div>
+        </div>
         <div className='mb-3'>
           <label className='form-label' htmlFor='cloudCover'>
             Sky conditions

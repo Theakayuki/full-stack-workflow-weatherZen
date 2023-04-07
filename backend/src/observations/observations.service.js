@@ -19,6 +19,8 @@ function update(updatedObservation) {
       sky_condition: updatedObservation.sky_condition,
       latitude: updatedObservation.latitude,
       longitude: updatedObservation.longitude,
+      air_temperature: updatedObservation.air_temperature,
+      air_temperature_unit: updatedObservation.air_temperature_unit,
     })
     .returning('*');
 }

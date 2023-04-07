@@ -100,4 +100,6 @@ export const initialObservation = {
   latitude: "",
   longitude: "",
   sky_condition: "",
+  air_temperature_unit: "F",
+  air_temperature: "",
 };
