@@ -1,36 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { createObservation, initialObservation } from '../utils/api';
+
 import { useHistory } from 'react-router-dom';
+import ErrorAlert from '../layout/ErrorAlert';
+import ObservationForm from './ObservationForm';
 
 function ObservationCreate() {
+  const [observation, setObservation] = useState({ ...initialObservation });
+  const [error, setError] = useState(null);
   const history = useHistory();
 
-  function cancelHandler() {
-    history.push('/');
+  function changeHandler({ target: { name, value } }) {
+    setObservation((previousObservation) => ({
+      ...previousObservation,
+      [name]: value,
+    }));
   }
 
   function submitHandler(event) {
     event.preventDefault();
-    history.push('/');
+    createObservation(observation)
+      .then(() => history.push('/'))
+      .catch(setError);
   }
 
   return (
     <main>
-      <h1>Create Observation</h1>
-      <form onSubmit={submitHandler}>
-        <p>Later, input fields will be added here.</p>
-        <div>
-          <button
-            type='button'
-            className='btn btn-secondary mr-2'
-            onClick={cancelHandler}
-          >
-            Cancel
-          </button>
-          <button type='submit' className='btn btn-primary'>
-            Submit
-          </button>
-        </div>
-      </form>
+      <h1 className='mb-3'>Create Observation</h1>
+      <ErrorAlert error={error} />
+      <ObservationForm observation={observation} onChange={changeHandler} onSubmit={submitHandler} />
     </main>
   );
 }

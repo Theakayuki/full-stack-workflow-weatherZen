@@ -11,7 +11,7 @@
     "start": "npx concurrently \"npm run start:frontend\" \"npm run start:backend\"",
     "start:frontend": "npm --prefix frontend start",
     "start:backend": "npm --prefix backend start",
-    "start:backend:dev": "npm --prefix backend start:dev",
+    "start:backend:dev": "npm --prefix backend run start:dev",
     "start:dev": "npx concurrently \"npm run start:frontend\" \"npm run start:backend:dev\"",
     "build": "npx concurrently \"npm run build:frontend\" \"npm run build:backend\"",
     "build:frontend": "npm --prefix frontend build",

@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import React from "react";
 import Home from "../home/Home";
 import ObservationCreate from "../observations/ObservationCreate";
+import ObservationEdit from "../observations/ObservationEdit";
 import Header from "./Header";
 import Menu from "./Menu";
 import NotFound from "./NotFound";
@@ -14,6 +15,9 @@ function Layout() {
       <Menu />
       <div className="container">
         <Switch>
+          <Route path='/observations/:observationId/edit'>
+            <ObservationEdit />
+          </Route>
           <Route path='/observations/new'>
             <ObservationCreate />
           </Route>

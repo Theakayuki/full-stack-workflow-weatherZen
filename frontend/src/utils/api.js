@@ -16,7 +16,7 @@ headers.append("Content-Type", "application/json");
  * This function is NOT exported because it is not needed outside of this file.
  *
  * @param url
- *  the url for the requst.
+ *  the url for the request.
  * @param options
  *  any options for fetch
  * @returns {Promise<Error|any>}
@@ -44,3 +44,60 @@ async function fetchJson(url, options) {
     }
   }
 }
+
+
+export async function createObservation(observation, signal) {
+  const url = `${API_BASE_URL}/observations`;
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ data: observation }),
+    signal,
+  };
+  return await fetchJson(url, options);
+}
+
+export async function listObservations(signal) {
+  const url = `${API_BASE_URL}/observations`;
+  const options = {
+    headers,
+    signal,
+  }
+  return await fetchJson(url, options);
+}
+
+export async function updateObservation(observationId, observation, signal) {
+  const url = `${API_BASE_URL}/observations/${observationId}`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: observation }),
+    signal,
+  };
+  return await fetchJson(url, options);
+}
+
+export async function readObservation(observationId, signal) {
+  const url = `${API_BASE_URL}/observations/${observationId}`;
+  const options = {
+    headers,
+    signal,
+  };
+  return await fetchJson(url, options);
+}
+
+export async function deleteObservation(observationId, signal) {
+  const url = `${API_BASE_URL}/observations/${observationId}`;
+  const options = {
+    method: "DELETE",
+    headers,
+    signal,
+  };
+  return await fetchJson(url, options);
+}
+
+export const initialObservation = {
+  latitude: "",
+  longitude: "",
+  sky_condition: "",
+};
